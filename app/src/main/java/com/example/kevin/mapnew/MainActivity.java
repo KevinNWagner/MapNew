@@ -1,6 +1,7 @@
 package com.example.kevin.mapnew;
 
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback  {
+    public static Resources resources;
+
     private MapView viewMap;
     private GoogleMap mMap;
     static LatLng ubicacionColectivo = null;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        resources = getResources();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
 
         final MarkerOptions colectivo = new MarkerOptions();
@@ -149,11 +154,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return false;
             }
         });
-        /*
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+   //     mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
 
-            /*
+/*
             @Override
             public void onMapClick(LatLng latLng) {
                 obtenerDataColectivo_Task obtener = new obtenerDataColectivo_Task(texto);
@@ -178,9 +183,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
         });
-        */
+*/
 
         verRecorrido();
+
 
     }
 

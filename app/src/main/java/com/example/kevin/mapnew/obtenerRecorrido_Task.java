@@ -1,8 +1,10 @@
 package com.example.kevin.mapnew;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,13 +21,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.kevin.mapnew.MainActivity.resources;
+
 /**
  * Created by kevin on 1/10/2016.
  */
 public class obtenerRecorrido_Task extends AsyncTask<String,Integer,ArrayList<LatLng>> {
-   // private LatLng recorrido[];
+    // private LatLng recorrido[];
     final public ArrayList<LatLng> puntos = new ArrayList<LatLng>();
+    String ip = resources.getString(R.string.ipDB);
+    String port = resources.getString(R.string.portDB);
+    String nameDB = resources.getString(R.string.nameDB);
+    String pass = resources.getString(R.string.passDB);
+    String user = resources.getString(R.string.userDB);
 
+    String urlConection = "jdbc:mysql://" + ip + ":" + port + "/" + nameDB + "?connectTimeout=3000";
 
     @Override
     protected ArrayList<LatLng> doInBackground(String... params) {
@@ -38,7 +48,8 @@ public class obtenerRecorrido_Task extends AsyncTask<String,Integer,ArrayList<La
             // Si estás utilizando el emulador de android y tenes el PostgreSQL en tu misma PC no utilizar 127.0.0.1 o localhost como IP, utilizar 10.0.2.2
             Log.d("check class ", "latitud");
 
-            final Connection conn = DriverManager.getConnection("jdbc:mysql://10.0.2.2/db_administracion_colectivos", "root", "");
+
+            final Connection conn = DriverManager.getConnection(urlConection, user, pass);
             //En el stsql se puede agregar cualquier consulta SQL deseada.
             Log.d("Conectado ", "latitud");
             String stsql = "Select * from recorridos";
@@ -89,7 +100,7 @@ public class obtenerRecorrido_Task extends AsyncTask<String,Integer,ArrayList<La
     }
 
 
-    public void setRecorrido(GoogleMap mMap, Context context ){
+    public void setRecorrido(GoogleMap mMap, Context context) {
 
 
         PolygonOptions trayecto = new PolygonOptions();
@@ -111,13 +122,69 @@ public class obtenerRecorrido_Task extends AsyncTask<String,Integer,ArrayList<La
 
             }
         } else {
-            Toast.makeText(context, "No hay coneccion ..", Toast.LENGTH_LONG).show();
+            noHayConexcion(context,mMap);
         }
 
 
     }
+
+
+    private void noHayConexcion(final Context context, final GoogleMap mMap) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Ocurrio un problema");
+        builder.setMessage("No hay coneccion ..");
+
+        builder.setPositiveButton("Reintentar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+
+
+
+
+                try {
+                    if(ConexcionOn()){
+
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //TODO
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private int ConexcionOn() throws SQLException, ClassNotFoundException {
+
+        Class.forName("com.mysql.jdbc.Driver");
+        // "jdbc:postgresql://IP:PUERTO/DB", "USER", "PASSWORD");
+        // Si estás utilizando el emulador de android y tenes el PostgreSQL en tu misma PC no utilizar 127.0.0.1 o localhost como IP, utilizar 10.0.2.2
+        Log.d("check class ", "latitud");
+
+
+        final Connection conn = DriverManager.getConnection(urlConection, user, pass);
+
+        String stsql = "Select version()";
+        final Statement st = conn.createStatement();
+        final ResultSet rs = st.executeQuery(stsql);
+
+        if(rs.wasNull()){
+            return 0;
+        }
+
+
+        return 1;
+    }
+
 }
-
-
-
 

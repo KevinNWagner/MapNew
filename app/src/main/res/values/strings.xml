@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MapNew</string>
     <string name="action_settings">Settings</string>
+    <string name="ipDB">192.168.0.5</string>
+    <string name="portDB">3306</string>
+    <string name="passDB">kevin</string>
+    <string name="userDB">kevin</string>
+    <string name="nameDB">db_administracion_colectivos</string>
+
 </resources>
