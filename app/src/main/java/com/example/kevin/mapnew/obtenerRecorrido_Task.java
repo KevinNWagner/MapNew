@@ -21,7 +21,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import static com.example.kevin.mapnew.MainActivity.resources;
+import static com.example.kevin.mapnew.initialMaps.resources;
 
 /**
  * Created by kevin on 1/10/2016.
@@ -138,7 +138,7 @@ public class obtenerRecorrido_Task extends AsyncTask<String,Integer,ArrayList<La
             public void onClick(DialogInterface dialog, int id) {
 
 
-
+            /*
 
 
                 try {
@@ -150,7 +150,7 @@ public class obtenerRecorrido_Task extends AsyncTask<String,Integer,ArrayList<La
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-
+            */
 
             }
         });

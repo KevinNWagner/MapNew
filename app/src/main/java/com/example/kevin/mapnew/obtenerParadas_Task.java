@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import static com.example.kevin.mapnew.MainActivity.resources;
+import static com.example.kevin.mapnew.initialMaps.resources;
 
 /**
  * Created by kevin on 16/11/2016.
